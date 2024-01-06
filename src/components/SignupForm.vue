@@ -6,26 +6,40 @@
     : v-on: = @
     : .prevent -> submit의 기본동작인 새로고침을 막아줌
     -->
-	<form @submit.prevent="submitForm">
-		<div>
-			<label for="username"> id : </label>
-			<input id="username" type="text" v-model="username" />
+	<div class="contents">
+		<div class="form-wrapper form-wrapper-sm">
+			<form @submit.prevent="submitForm" class="form">
+				<div>
+					<label for="username"> id : </label>
+					<input id="username" type="text" v-model="username" />
+				</div>
+				<div>
+					<label for="password"> pw : </label>
+					<input id="password" type="text" v-model="password" />
+				</div>
+				<div>
+					<label for="nickname"> nickname : </label>
+					<input id="nickname" type="text" v-model="nickname" />
+				</div>
+				<!-- disabled : 버튼 비활성화 (값이 입력되어야 활성화) -->
+				<!-- disabled가 조건에 따라 실행되어야 할 때 'v-bind:disabled="true or false"' 사용 -->
+				<!-- v-bind = : -->
+				<button
+					:disabled="!isUsernameValid || !password"
+					type="submit"
+					class="btn"
+				>
+					회원 가입
+				</button>
+				<p>{{ logMessage }}</p>
+			</form>
 		</div>
-		<div>
-			<label for="password"> pw : </label>
-			<input id="password" type="text" v-model="password" />
-		</div>
-		<div>
-			<label for="nickname"> nickname : </label>
-			<input id="nickname" type="text" v-model="nickname" />
-		</div>
-		<button type="submit">회원 가입</button>
-		<p>{{ logMessage }}</p>
-	</form>
+	</div>
 </template>
 
 <script>
 import { registerUser } from '@/api/index';
+import { validateEmail } from '@/utils/validation';
 
 export default {
 	// 회원가입 마크업의 input에 연결해서 사용하기 위해 data 생성 -> input 태그에 v-model 기입
@@ -40,6 +54,14 @@ export default {
 			logMessage: '',
 		};
 	},
+	// computed : 데이터의 변화에 맞게 자동으로 연산해주는 명령어
+	computed: {
+		// isFormValid ->  boolean 값을 return 하는 명령어
+		isUsernameValid() {
+			return validateEmail(this.username);
+		},
+	},
+
 	// form 태그와 연결되는 메서드 생성
 	// button을 submit 타입으로 설정해두었기에 버튼을 활성화 시키면 submit 이벤트가 버블링되어 v-on:submit 이벤트로 수신
 	methods: {
