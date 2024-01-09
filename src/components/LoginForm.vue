@@ -61,9 +61,10 @@ export default {
 					password: this.password,
 				};
 				const { data } = await loginUser(userData);
-				console.log(data.user.username);
+				console.log(data.token);
+				this.$store.commit('setToken', data.token);
 				this.$store.commit('setUsername', data.user.username);
-				// this.logMessage = `${data.user.username} 님 환영합니다`;
+				// this.logMessage = `${data.user.username} 님 환영합니다`; -> 로그인 하면 메인페이지로 이동하기에 주석처리
 				// 로그인 이후 메인 페이지로 이동 구현 (javascript)
 				// vue-router programmatic navigation
 				this.$router.push('/main');

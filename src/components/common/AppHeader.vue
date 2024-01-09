@@ -1,16 +1,20 @@
 <template>
 	<header>
 		<div>
-			<router-link to="/" class="logo"> TIL </router-link>
+			<router-link to="/" class="logo">
+				TIL
+				<span class="isUserLogin">by {{ $store.state.username }}</span>
+			</router-link>
 		</div>
 		<div class="navigations">
 			<!-- 분기처리 1 -->
 			<!-- template 표현식 간결하게 하기 위해 isUserLogin 이라는 computed 를 생성하여 연결 -->
 			<!-- v-if="$store.getters.username" -->
 			<template v-if="isUserLogin">
-				<span class="username">{{ $store.state.username }}</span>
 				<!-- javascript:; => 기본 <a>의 동작을 막는 코드 -->
-				<a href="javascript:;" @click="logoutUser">Logout</a>
+				<a href="javascript:;" @click="logoutUser" class="logout-button">
+					Logout
+				</a>
 			</template>
 			<!-- 분기처리 2 -->
 			<template v-else>
@@ -70,6 +74,9 @@ a.logo {
 	position: fixed;
 	top: 0;
 	width: 100%;
+}
+.logout-button {
+	font-size: 14px;
 }
 a.router-link-exact-active {
 	color: white;
