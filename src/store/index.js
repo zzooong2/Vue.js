@@ -1,13 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {
+	getAuthFromCookie,
+	getUserFromCookie,
+	saveAuthToCookie,
+	saveUserToCookie,
+} from '@/utils/cookies';
+import { loginUser } from '@/api/index';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	// state -> 여러 componet 간 공유되는 데이터
 	state: {
-		username: '',
-		token: '',
+		username: getUserFromCookie() || '',
+		token: getAuthFromCookie() || '',
 	},
 	// getters -> state의 값이 변경 되었을 때 특정 상태를 개선 (return 값을 가짐 = computed와 같다고 생각)
 	getters: {
@@ -25,6 +32,17 @@ export default new Vuex.Store({
 		},
 		setToken(state, token) {
 			state.token = token;
+		},
+	},
+	actions: {
+		async LOGIN({ commit }, userData) {
+			const { data } = await loginUser(userData);
+			console.log(data.token);
+			commit('setToken', data.token);
+			commit('setUsername', data.user.username);
+			saveAuthToCookie(data.token);
+			saveUserToCookie(data.user.username);
+			return data;
 		},
 	},
 });

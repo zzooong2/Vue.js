@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { loginUser } from '@/api/index';
 import { validateEmail } from '@/utils/validation';
 
 export default {
@@ -60,10 +59,18 @@ export default {
 					username: this.username,
 					password: this.password,
 				};
-				const { data } = await loginUser(userData);
-				console.log(data.token);
-				this.$store.commit('setToken', data.token);
-				this.$store.commit('setUsername', data.user.username);
+				// @/store/index.js 파일에 actions 속성으로 이동
+				// 코드의 가독성을 위해
+				// components에 비즈니스 로직이 노출되지 않기 위해
+				await this.$store.dispatch('LOGIN', userData);
+				//
+				// const { data } = await loginUser(userData);
+				// console.log(data.token);
+				// this.$store.commit('setToken', data.token);
+				// this.$store.commit('setUsername', data.user.username);
+				// saveAuthToCookie(data.token);
+				// saveUserToCookie(data.user.username);
+				//
 				// this.logMessage = `${data.user.username} 님 환영합니다`; -> 로그인 하면 메인페이지로 이동하기에 주석처리
 				// 로그인 이후 메인 페이지로 이동 구현 (javascript)
 				// vue-router programmatic navigation
