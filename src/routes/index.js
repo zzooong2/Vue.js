@@ -36,6 +36,11 @@ export default new VueRouter({
 			// component: SignupPage, // 회원가입 페이지에 path를 보냄 (router-view 태그 사용시 path가 보여짐)
 		},
 		{
+			path: '/main',
+			component: () => import('@/views/MainPage.vue'),
+		},
+
+		{
 			path: '*', // * 표시를 할 경우 위에 기재된 url제외 모든 url에 대하여 정의하겠다는 표시 (라우터의 폴백)
 			component: () => import('@/views/NotFoundPage.vue'),
 		},

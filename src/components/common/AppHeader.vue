@@ -4,17 +4,43 @@
 			<router-link to="/" class="logo"> TIL </router-link>
 		</div>
 		<div class="navigations">
-			<router-link to="/login">로그인</router-link>
-			<router-link to="/signup">회원가입</router-link>
+			<!-- 분기처리 1 -->
+			<!-- template 표현식 간결하게 하기 위해 isUserLogin 이라는 computed 를 생성하여 연결 -->
+			<!-- v-if="$store.getters.username" -->
+			<template v-if="isUserLogin">
+				<span class="username">{{ $store.state.username }}</span>
+				<!-- javascript:; => 기본 <a>의 동작을 막는 코드 -->
+				<a href="javascript:;" @click="logoutUser">Logout</a>
+			</template>
+			<!-- 분기처리 2 -->
+			<template v-else>
+				<router-link to="/login">로그인</router-link>
+				<router-link to="/signup">회원가입</router-link>
+			</template>
 		</div>
 	</header>
 </template>
 
 <script>
-export default {};
+export default {
+	computed: {
+		isUserLogin() {
+			return this.$store.getters.isLogin;
+		},
+	},
+	methods: {
+		logoutUser() {
+			this.$store.commit('clearUsername'); // clearUsername을 호출하면서 로그아웃 기능
+			this.$router.push('/login'); // 로그아웃 이후 로그인 페이지로 이동
+		},
+	},
+};
 </script>
 
 <style scoped>
+.username {
+	color: white;
+}
 header {
 	display: flex;
 	justify-content: space-between;
