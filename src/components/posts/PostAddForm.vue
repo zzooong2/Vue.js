@@ -46,6 +46,7 @@ export default {
 					title: this.title,
 					contents: this.contents,
 				});
+				this.$router.push('/main'); // 게시글 생성 후 메인 화면으로 이동
 				console.log(response);
 			} catch (error) {
 				console.log(error.response.data.message);
