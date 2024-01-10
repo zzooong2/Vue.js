@@ -8,7 +8,7 @@
 		</div>
 		<div class="post-time">
 			{{ postItem.createdAt }}
-			<i class="icon ion-md-create"></i>
+			<i class="icon ion-md-create" @click="routeEditPage"></i>
 			<i class="icon ion-md-trash" @click="deleteItem"></i>
 		</div>
 	</li>
@@ -26,12 +26,15 @@ export default {
 	},
 	methods: {
 		async deleteItem() {
-			if (confirm('Do you want delete this data?')) {
+			if (confirm('You want to delete it?')) {
 				await deletePost(this.postItem._id);
 				this.$emit('refresh');
-			} // 모달창 띄우기
-
+			}
 			// console.log('deleted');
+		},
+		routeEditPage() {
+			const id = this.postItem._id;
+			this.$router.push(`/post/${id}`);
 		},
 	},
 };

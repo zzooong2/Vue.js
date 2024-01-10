@@ -44,6 +44,10 @@ export default new VueRouter({
 			component: () => import('@/views/PostAddPage.vue'),
 		},
 		{
+			path: '/post/:id',
+			component: () => import('@/views/PostEditPage.vue'),
+		},
+		{
 			path: '*', // * 표시를 할 경우 위에 기재된 url제외 모든 url에 대하여 정의하겠다는 표시 (라우터의 폴백)
 			component: () => import('@/views/NotFoundPage.vue'),
 		},
