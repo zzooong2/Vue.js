@@ -50,4 +50,8 @@ function fetchPosts() {
 	return instance.get('posts');
 }
 
-export { registerUser, loginUser, fetchPosts }; //eslint-disable-line no-unused-vars
+function createPost(postData) {
+	return instance.post('posts', postData);
+}
+
+export { registerUser, loginUser, fetchPosts, createPost }; //eslint-disable-line no-unused-vars
